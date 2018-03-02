@@ -4,22 +4,21 @@
 \alias{check_vector}
 \title{Check Vector}
 \usage{
-check_vector(x, values, length = c(0L, .Machine$integer.max),
-  unique = FALSE, sorted = FALSE, named = NA, x_name = substitute(x),
-  error = TRUE)
+check_vector(x, values, length = NA, unique = FALSE, sorted = FALSE,
+  named = NA, x_name = substitute(x), error = TRUE)
 }
 \arguments{
 \item{x}{The object to check.}
 
 \item{values}{An optional vector specifying the values.}
 
-\item{length}{A count of the length or count range of the minimum and maximum length.}
+\item{length}{A flag indicating whether x should have elements (versus no elements) or a missing value indicating no requirements or a count or count range of the number of elements.}
 
 \item{unique}{A flag indicating whether the values must be unique.}
 
 \item{sorted}{A flag indicating whether the vector must be sorted.}
 
-\item{named}{A flag (or NA) indicating whether the vector must be named or unnamed (or doesn't matter).}
+\item{named}{A flag indicating whether the vector must be named or unnamed or a regular expression that must match all the names or count or count range of the number of characters in the names or NA if it doesn't matter if the vector is named.}
 
 \item{x_name}{A string of the name of the object.}
 
