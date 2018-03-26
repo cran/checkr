@@ -1,3 +1,10 @@
+# checkr 0.2.0
+
+- deprecated `check_tz()` for `check_tzone()`
+- added `check_unused()` to check `...` is unused within a function
+- added `check_homogenous()` to check object's elements are the same class
+- added `check_flag_na()` to check is scalar logical
+
 # checkr 0.1.0
 
 - added `check_nchar()` function

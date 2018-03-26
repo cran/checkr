@@ -12,7 +12,7 @@ check_names(x, names = character(0), exclusive = FALSE, order = FALSE,
 
 \item{names}{A character vector of the names.}
 
-\item{exclusive}{A flag indicating whether other names are permitted.}
+\item{exclusive}{A flag indicating whether other names are not permitted.}
 
 \item{order}{A flag indicating whether the object names have to occur in the same order as names.}
 
@@ -26,7 +26,8 @@ check_names(x, names = character(0), exclusive = FALSE, order = FALSE,
 An invisible copy of x (if it doesn't throw an error).
 }
 \description{
-Check Names
+#' Checks the names of an object as returned by the `names()` function. 
+The function can check the order of the names and whether other names are permitted.
 }
 \examples{
 vec <- c(x = 1, y = 2, z = 0)
@@ -34,4 +35,7 @@ check_names(vec, c("y", "x"), error = FALSE)
 check_names(vec, c("y", "x"), exclusive = TRUE, error = FALSE)
 check_names(vec, c("y", "x"), order = TRUE, error = FALSE)
 check_names(vec, c("a"), error = FALSE)
+}
+\seealso{
+\code{\link{check_named}}
 }

@@ -12,7 +12,7 @@ check_classes(x, classes = character(0), exclusive = FALSE, order = FALSE,
 
 \item{classes}{A character vector of the classes x should inherit from.}
 
-\item{exclusive}{A flag indicating whether other classes are permitted.}
+\item{exclusive}{A flag indicating whether other classes are not permitted.}
 
 \item{order}{A flag indicating whether the object classes have to occur in the same order as classes.}
 
@@ -24,10 +24,16 @@ check_classes(x, classes = character(0), exclusive = FALSE, order = FALSE,
 An invisible copy of x (if it doesn't throw an error).
 }
 \description{
-Check Classes
+Checks that an object inherits from one or more classes.
+}
+\details{
+The classes of an object can be returned using the `class()` function.
 }
 \examples{
 check_classes(list())
 check_classes(list(), "list")
 check_classes(list(), "numeric", error = FALSE)
+}
+\seealso{
+\code{\link{check_inherits}}
 }

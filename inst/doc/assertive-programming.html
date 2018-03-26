@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joe Thorley" />
 
-<meta name="date" content="2018-03-02" />
+<meta name="date" content="2018-03-26" />
 
 <title>Packages for Assertive Programming</title>
 
@@ -280,7 +280,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Packages for Assertive Programming</h1>
 <h4 class="author"><em>Joe Thorley</em></h4>
-<h4 class="date"><em>2018-03-02</em></h4>
+<h4 class="date"><em>2018-03-26</em></h4>
 
 
 
@@ -300,6 +300,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li><a href="https://github.com/poissonconsulting/checkr">checkr</a></li>
 </ul>
 <p>This vignette consists of an overview of each package followed by a comparison.</p>
+<p>In short the <code>checkr</code> package is recommended over the alternatives if you are looking for a set of expressive, dependency-free, pipe-friendly assertive functions with customisable object names.</p>
 <div id="package-overview" class="section level2">
 <h2>Package Overview</h2>
 <div id="base" class="section level3">
@@ -352,7 +353,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="checkr" class="section level3">
 <h3>checkr</h3>
-<p>The <a href="https://github.com/poissonconsulting/checkr"><code>checkr</code></a> package provides a handful of expressive functions to test the values of objects.</p>
+<p>The <a href="https://github.com/poissonconsulting/checkr"><code>checkr</code></a> package provides a set of expressive functions to test the values of objects.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">library</span>(checkr)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">check_vector</span>(height, <span class="st">&quot;&quot;</span>)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Error: height must be class character</span></a></code></pre></div>

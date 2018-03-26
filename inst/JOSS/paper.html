@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-01-30" />
+<meta name="date" content="2018-03-26" />
 
 <title>checkr: An R package for Assertive Programming</title>
 
@@ -304,19 +304,30 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">checkr: An R package for Assertive Programming</h1>
-<h4 class="date"><em>2018-01-30</em></h4>
+<h4 class="date"><em>2018-03-26</em></h4>
 
 </div>
 
 
-<section id="summary" class="level2">
+<div id="summary" class="section level2">
 <h2>Summary</h2>
-<p>Assertive programming follows the principles of fail fast and fail visibly <span class="citation" data-cites="shore_fail_2004">(Shore 2004)</span>. It is implemented by issuing an informative error message if function arguments fail to satisfy specific criteria. This is particularly important in R because it is dynamically-typed language <span class="citation" data-cites="hutchison_evaluating_2012">(Morandat et al. 2012)</span>.</p>
-<p><code>checkr</code> is a dependency-free, pipe-friendly R package of assertive functions to check the properties of common R objects. In the case of failure the functions, which are designed to be used in scripts and packages, issue informative error messages.</p>
-<p>The most interesting and unique feature of <code>checkr</code> is the use of objects to check the values of other objects using an elegant and expressive syntax.</p>
+<p>Assertive programming follows the principles of fail fast and fail visibly <span class="citation">(Shore 2004)</span>. It is implemented by issuing an informative error message if function arguments fail to satisfy specific criteria. This is particularly important in R because it is dynamically-typed language <span class="citation">(Morandat et al. 2012)</span>.</p>
+<p><code>checkr</code> is a dependency-free, pipe-friendly R package of assertive functions to check the properties of common R objects. In the case of failure, the functions, which are designed to be used in scripts and packages, issue informative error messages.</p>
+<p>The most interesting and unique feature of <code>checkr</code> is the use of objects to check the values of other objects using an elegant and expressive syntax. For example the values in the <code>height</code>, <code>name</code>, <code>mass</code>, <code>hair_color</code> and <code>gender</code> columns in the <code>starwars</code> data frame are checked using the syntax.</p>
+<pre class="r"><code>library(checkr)
+
+check_data(dplyr::starwars, values = list(
+  height = c(66L, 264L),
+  mass = c(20,1358, NA),
+  hair_color = c(&quot;blond&quot;, &quot;brown&quot;, &quot;black&quot;, NA)), error = FALSE)</code></pre>
+<pre><code>## Warning: column height of dplyr::starwars must not include missing values</code></pre>
+<pre><code>## Warning: the values in column mass of dplyr::starwars must lie between 20
+## and 1358</code></pre>
+<pre><code>## Warning: column hair_color of dplyr::starwars can only include values
+## 'black', 'blond' or 'brown'</code></pre>
 <p>The software archive is at <a href="https://github.com/poissonconsulting/checkr" class="uri">https://github.com/poissonconsulting/checkr</a>.</p>
-</section>
-<section id="references" class="level2 unnumbered">
+</div>
+<div id="references" class="section level2 unnumbered">
 <h2>References</h2>
 <div id="refs" class="references">
 <div id="ref-hutchison_evaluating_2012">
@@ -326,7 +337,7 @@ $(document).ready(function () {
 <p>Shore, Jim. 2004. “Fail Fast.” <em>IEEE Software</em> September/October:21–25. <a href="https://www.martinfowler.com/ieeeSoftware/failFast.pdf" class="uri">https://www.martinfowler.com/ieeeSoftware/failFast.pdf</a>.</p>
 </div>
 </div>
-</section>
+</div>
 
 
 

@@ -1,11 +1,12 @@
 #' Check Date Time
 #' 
-#' Checks if x is a datetime (non-missing POSIXt scalar).
+#' Checks if x is a datetime (non-missing POSIXct scalar).
 #'
 #' @param x The object to check.
 #' @param x_name A string of the name of the object.
 #' @param error A flag indicating whether to throw an informative error or immediately generate an informative message if the check fails.
 #' @return An invisible copy of x (if it doesn't throw an error).
+#' @seealso \code{\link{check_scalar}}
 #' @export
 #'
 #' @examples

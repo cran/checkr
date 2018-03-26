@@ -16,14 +16,19 @@ Downloads](http://cranlogs.r-pkg.org/badges/grand-total/checkr)](https://CRAN.R-
 
 # checkr
 
-`checkr` is a dependency-free, pipe-friendly R package of expressive,
-assertive functions to check the properties of common R objects.
+`checkr` is an R package of assertive functions to check the properties
+of common R objects.
 
 In the case of failure the functions, which are designed to be used in
 scripts and packages, issue informative error messages.
 
-For a comparison with similar packages see the `assertive-programming`
+For an overview of the functions see the `checkr-naming` vignette and
+for a comparison with similar packages see the `assertive-programming`
 vignette.
+
+The `checkr` package is recommended over the alternatives if you are
+looking for a set of expressive, dependency-free, pipe-friendly
+assertive functions with customisable object names.
 
 ## Demonstration
 
@@ -51,20 +56,6 @@ check_data(dplyr::starwars, values = list(
 #> Warning: column 'hair_color' in dplyr::starwars must be a unique key
 ```
 
-The two other main functions are `check_vector()` and `check_list()`.
-
-``` r
-y <- c(2,1,0,1,NA)
-check_vector(y, values = 1:10, length = 2, unique = TRUE, sorted = TRUE, named = TRUE, error = FALSE)
-#> Warning: y must have 2 elements
-#> Warning: y must be class integer
-#> Warning: y must not include missing values
-#> Warning: y has unpermitted values 0
-#> Warning: y must be unique
-#> Warning: y must be sorted
-#> Warning: y must be named
-```
-
 ## Values
 
 The most interesting and unique feature of `checkr` is the use of
@@ -76,6 +67,7 @@ expressive syntax.
 To check the class simply pass an object of the desired class.
 
 ``` r
+y <- c(2,1,0,1,NA)
 check_vector(y, values = numeric(0))
 check_vector(y, values = integer(0))
 #> Error: y must be class integer
@@ -179,7 +171,7 @@ To install the latest development version from the Poisson drat
 To cite package 'checkr' in publications use:
 
   Joe Thorley (2018). checkr: Check the Properties of Common R
-  Objects. R package version 0.1.0.
+  Objects. R package version 0.2.0.
   https://github.com/poissonconsulting/checkr
 
 A BibTeX entry for LaTeX users is
@@ -188,7 +180,7 @@ A BibTeX entry for LaTeX users is
     title = {checkr: Check the Properties of Common R Objects},
     author = {Joe Thorley},
     year = {2018},
-    note = {R package version 0.1.0},
+    note = {R package version 0.2.0},
     url = {https://github.com/poissonconsulting/checkr},
   }
 ```

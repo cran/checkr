@@ -19,10 +19,14 @@ check_tz(x, tz = "UTC", x_name = substitute(x), error = TRUE)
 An invisible copy of x (if it doesn't throw an error).
 }
 \description{
-Check TimeZone
+Checks an objects tzone attribute.
+This function has been deprecated for \code{\link{check_tzone}}.
 }
 \examples{
-check_tz(Sys.Date(), error = FALSE)
+check_tzone(Sys.Date(), error = FALSE)
 x <- as.POSIXct("2000-01-02 03:04:55", tz = "Etc/GMT+8")
-check_tz(x, tz = "PST8PDT", error = FALSE)
+check_tzone(x, tzone = "PST8PDT", error = FALSE)
+}
+\seealso{
+\code{\link{check_tzone}}
 }

@@ -12,9 +12,9 @@ check_colnames(x, colnames = character(0), exclusive = FALSE,
 
 \item{colnames}{A character vector of the column names.}
 
-\item{exclusive}{A flag indicating whether other columns are permitted.}
+\item{exclusive}{A flag indicating whether other columns are not permitted.}
 
-\item{order}{A flag indicating whether the columns have to occur in the same order as names.}
+\item{order}{A flag indicating whether the columns have to occur in the same order as colnames.}
 
 \item{x_name}{A string of the name of the object.}
 
@@ -24,7 +24,8 @@ check_colnames(x, colnames = character(0), exclusive = FALSE,
 An invisible copy of x (if it doesn't throw an error).
 }
 \description{
-Check Colnames
+Checks the column names of a data frame as returned by the `colnames()` function. 
+The function can check the order of the columns and whether other columns are permitted.
 }
 \examples{
 data <- data.frame(x = 1, y = 2, z = 0)
@@ -32,4 +33,7 @@ check_colnames(data, c("y", "x"), error = FALSE)
 check_colnames(data, c("y", "x"), exclusive = TRUE, error = FALSE)
 check_colnames(data, c("y", "x"), order = TRUE, error = FALSE)
 check_colnames(data, c("a"), error = FALSE)
+}
+\seealso{
+\code{\link{check_missing_colnames}} and \code{\link{check_data}}
 }
