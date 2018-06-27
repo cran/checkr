@@ -1,3 +1,10 @@
+# checkr 0.3.0
+
+- redefined `check_scalar` (following previous deprecation)
+- added `only = FALSE` argument to `check_vector()` to check whether 
+only the actual values are permitted.
+- added `check_rbind()` to check two data frames can be smoothly `rbind`ed
+
 # checkr 0.2.0
 
 - deprecated `check_tz()` for `check_tzone()`

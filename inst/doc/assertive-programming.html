@@ -12,7 +12,7 @@
 
 <meta name="author" content="Joe Thorley" />
 
-<meta name="date" content="2018-03-26" />
+<meta name="date" content="2018-06-27" />
 
 <title>Packages for Assertive Programming</title>
 
@@ -280,7 +280,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Packages for Assertive Programming</h1>
 <h4 class="author"><em>Joe Thorley</em></h4>
-<h4 class="date"><em>2018-03-26</em></h4>
+<h4 class="date"><em>2018-06-27</em></h4>
 
 
 
@@ -308,12 +308,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The <code>base</code> package offers the <code>stopifnot()</code> function.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">height &lt;-<span class="st"> </span>dplyr<span class="op">::</span>starwars<span class="op">$</span>height</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">stopifnot</span>(<span class="kw">is.character</span>(height))</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Error: is.character(height) is not TRUE</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Error in eval(expr, envir, enclos): is.character(height) is not TRUE</span></a></code></pre></div>
 <p>The error message is not that helpful if the user doesn’t know what <code>is.character()</code> tests for.</p>
 <p>In a function it behaves as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">my_fun &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">stopifnot</span>(<span class="kw">is.character</span>(x))</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">my_fun</span>(height)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Error: is.character(x) is not TRUE</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Error in my_fun(height): is.character(x) is not TRUE</span></a></code></pre></div>
 </div>
 <div id="assertthat" class="section level3">
 <h3>assertthat</h3>
