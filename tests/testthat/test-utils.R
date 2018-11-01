@@ -1,12 +1,5 @@
 context("utils")
 
-test_that("punctuate", {
-  expect_identical(punctuate(1), "1")
-  expect_identical(punctuate(1:2), "1 or 2")
-  expect_identical(punctuate(1:3), "1, 2 or 3")
-  expect_identical(punctuate(1:3, "and"), "1, 2 and 3")
-})
-
 test_that("is_range", {
   expect_true(is_count_range(c(1,2)))
   expect_true(is_count_range(c(2,1)))
@@ -37,5 +30,11 @@ test_that("check_class_internal", {
   expect_identical(check_class_internal(time, time), time)
 })
 
-
-
+test_that("chk_deparse", {
+  expect_identical(chk_deparse(1), "1")
+  expect_identical(chk_deparse(NA), "NA")
+  expect_identical(chk_deparse("1"), "1")
+  expect_identical(chk_deparse(substitute(1)), "1")
+  expect_identical(chk_deparse(substitute(NA)), "NA")
+  expect_identical(chk_deparse(substitute("1")), "1")
+})

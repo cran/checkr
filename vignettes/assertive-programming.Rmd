@@ -37,7 +37,7 @@ The most useful packages that I am aware of that satisfy these criteria are
 
 This vignette consists of an overview of each package followed by a comparison.
 
-In short the `checkr` package is recommended over the alternatives if you are looking for a set of expressive, dependency-free, pipe-friendly assertive functions with customisable object names.
+In short the `checkr` package is recommended over the alternatives if you are looking for a set of expressive, light-weight, pipe-friendly assertive functions with customizable object names.
 
 ## Package Overview
 
@@ -155,4 +155,4 @@ Much of the `checkmate` package is written in `C` to minimize execution time.
 ### Dependencies
 
 Whereas the `checkmate` package depends on `backports` and `utils`,
-and `assertthat` depends on `tools` both `base` and `checkr` are dependency-free.
+and `assertthat` depends on `tools`, and `checkr` depends on `err` only `base` is dependency-free.

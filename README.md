@@ -4,6 +4,8 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Travis-CI Build
 Status](https://travis-ci.org/poissonconsulting/checkr.svg?branch=master)](https://travis-ci.org/poissonconsulting/checkr)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/checkr?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/checkr)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/poissonconsulting/checkr/master.svg)](https://codecov.io/github/poissonconsulting/checkr?branch=master)
 [![License:
@@ -15,8 +17,8 @@ Downloads](http://cranlogs.r-pkg.org/badges/grand-total/checkr)](https://CRAN.R-
 
 # checkr
 
-`checkr` is an R package of assertive functions to check the properties
-of common R objects.
+`checkr` is a light-weight R package of expressive, assertive,
+pipe-friendly functions to check the properties of common R objects.
 
 In the case of failure the functions, which are designed to be used in
 scripts and packages, issue informative error messages.
@@ -24,10 +26,6 @@ scripts and packages, issue informative error messages.
 For an overview of the functions see the `checkr-naming` vignette and
 for a comparison with similar packages see the `assertive-programming`
 vignette.
-
-The `checkr` package is recommended over the alternatives if you are
-looking for a set of expressive, dependency-free, pipe-friendly
-assertive functions with customisable object names.
 
 ## Demonstration
 
@@ -55,11 +53,10 @@ check_data(dplyr::starwars, values = list(
 #> Warning: column 'hair_color' in dplyr::starwars must be a unique key
 ```
 
-## Values
+## Syntax
 
-The most interesting and unique feature of `checkr` is the use of
-objects to check the values of other objects using an elegant and
-expressive syntax.
+`checkr` uses objects to check the values of other objects using an
+elegant and expressive syntax.
 
 #### Class
 
@@ -110,15 +107,17 @@ check_vector(y, c(-1, -10, NA))
 #### Specific Values
 
 To check the vector only includes specific values pass three or more
-non-missing values.
+non-missing values or set `only = TRUE`.
 
 ``` r
 check_vector(y, c(0, 1, 2, NA))
 check_vector(y, c(1, 1, 2, NA))
 #> Error: y can only include values 1 or 2
+check_vector(y, c(1, 2, NA), only = TRUE)
+#> Error: y can only include values 1 or 2
 ```
 
-### Naming Objects
+## Naming Objects
 
 By default, the name of an object is determined from the function call.
 
@@ -143,6 +142,27 @@ y %>% check_list(x_name = "y")
 #> Error: y must be a list
 ```
 
+## Scalars
+
+The four wrapper functions `check_lgl()`, `check_int()`, `check_dbl()`
+and `check_str()` check whether an object is an attribute-less
+non-missing scalar logical (flag), integer, double (number) or character
+(string). They are really useful for checking the types of arguments in
+functions
+
+``` r
+fun <- function(x) { check_lgl(x)}
+fun(x = NA)
+#> Error: x must not include missing values
+fun(x = TRUE)
+fun(x = 1)
+#> Error: x must be class logical
+```
+
+Additional scalar wrappers are `check_date()` and `check_dttm()` for
+scalar Date and POSIXct objects. Alternatively you can roll your own
+using the more general `check_scalar()` function.
+
 ## Installation
 
 To install the latest official release from
@@ -153,13 +173,14 @@ To install the latest official release from
 To install the latest development version from
 [GitHub](https://github.com/poissonconsulting/checkr)
 
-    # install.packages("devtools")
+    install.packages("devtools")
+    devtools::install_github("poissonconsulting/err")
     devtools::install_github("poissonconsulting/checkr")
 
 To install the latest development version from the Poisson drat
 [repository](https://github.com/poissonconsulting/drat)
 
-    # install.packages("drat")
+    install.packages("drat")
     drat::addRepo("poissonconsulting")
     install.packages("checkr")
 
@@ -201,4 +222,4 @@ abide by its terms.
 
 ## Inspiration
 
-[datacheckr](https://github.com/poissonconsulting/datacheckr)
+[datacheckr](https://github.com/poissonconsulting/datacheckr).

@@ -4,7 +4,8 @@
 \alias{check_list}
 \title{Check List}
 \usage{
-check_list(x, values, length = NA, unique = FALSE, named = NA,
+check_list(x, values = NULL, length = NA, unique = FALSE,
+  named = NA, exclusive = FALSE, order = FALSE,
   x_name = substitute(x), error = TRUE)
 }
 \arguments{
@@ -12,11 +13,15 @@ check_list(x, values, length = NA, unique = FALSE, named = NA,
 
 \item{values}{An optional vector or named list specifying the values.}
 
-\item{length}{A flag indicating whether x should have elements (versus no elements) or a missing value indicating no requirements or a count or count range of the number of elements.}
+\item{length}{A flag indicating whether x should have elements (versus no elements) or a missing value indicating no requirements or a count or count range of the number of elements or a count vector of the permitted number of elements.}
 
 \item{unique}{A flag indicating whether the values must be unique.}
 
 \item{named}{A flag indicating whether the list must be named or unnamed or a regular expression that must match all the names or count or count range of the number of characters in the names or NA if it doesn't matter if the list is named.}
+
+\item{exclusive}{A flag indicating whether other elements are not permitted.}
+
+\item{order}{A flag indicating whether the elements have to occur in the same order as values.}
 
 \item{x_name}{A string of the name of the object.}
 
@@ -31,8 +36,7 @@ of its elements.
 }
 \examples{
 check_list(list())
-check_list(list(x1 = 2, x2 = 1:2), values = list(x1 = 1, x2 = 1L),
-  length = 2, unique = TRUE)
+check_list(list(x1 = 2, x2 = 1:2), values = list(x1 = 1, x2 = 1L))
 }
 \seealso{
 \code{\link{check_length}} and \code{\link{check_unique}}

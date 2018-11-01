@@ -3,7 +3,9 @@ is_flag <- function(x)  is.logical(x) && length(x) == 1 && !is.na(x)
 is_NA <- function(x)  length(x) == 1 && is.na(x)
 
 is.POSIXt <- function(x) inherits(x, "POSIXt")
-  
+
+is_Date <- function(x) inherits(x, "Date")
+
 is_string <- function(x)  (is.character(x) || is.factor(x)) && length(x) == 1 && !is.na(x)
 
 is_count <- function(x)  is.numeric(x) && length(x) == 1 &&
@@ -12,62 +14,111 @@ is_count <- function(x)  is.numeric(x) && length(x) == 1 &&
 is_count_range <- function(x) is.numeric(x) && length(x) %in% 1:2 && 
   all(!is.na(x) & x >= 0 & identical(as.numeric(x), floor(x)))
 
-is_length <- function(x) is_flag(x) || is_NA(x) || is_count_range(x)
+is_count_vector <- function(x) is.numeric(x) && length(x) >= 3 && 
+  all(!is.na(x) & x >= 0 & identical(as.numeric(x), floor(x)))
+
+is_length <- function(x) is_flag(x) || is_NA(x) || is_count_range(x) || is_count_vector(x)
 
 check_string_internal <- function(x)
-  if (!is_string(x)) error(substitute(x), " must be a string")
+  if (!is_string(x)) err(substitute(x), " must be a string")
 
 check_flag_internal <- function(x)
-  if (!is_flag(x)) error(substitute(x), " must be a flag")
+  if (!is_flag(x)) err(substitute(x), " must be a flag")
 
 check_count_internal <- function(x)
-  if (!is_count(x)) error(substitute(x), " must be a count")
+  if (!is_count(x)) err(substitute(x), " must be a count")
 
 check_length_internal <- function(x)
   if(!is_length(x))
-    error(substitute(x), " must be a flag, a missing value, a count or a count range")
+    err(substitute(x), " must be a flag, a missing value, a count, a count range or a count vector")
+
+#' Deparse
+#' 
+#' \code{chk_deparse} is a wrapper on \code{\link{deparse}} that
+#' sets a missing value to be "NA"
+#'
+#' @param x A substituted object to deparse
+#'
+#' @return A string
+#' @seealso \code{\link{deparse}}
+#' @export
+#'
+#' @examples
+#' chk_deparse(1^2)
+chk_deparse <- function(x) {
+  if (!is.character(x)) x <- deparse(x) 
+  if (isTRUE(is.na(x))) x <- "NA"
+  x
+}
 
 deparse_x_name <- function(x_name) {
-  if (!is.character(x_name)) x_name <- deparse(x_name) 
-  if (isTRUE(is.na(x_name))) x_name <- "NA"
-  
+  x_name <- chk_deparse(x_name)
   check_string_internal(x_name)
-
   x_name
 }
 
 deparse_y_name <- function(y_name) {
-  if (!is.character(y_name)) y_name <- deparse(y_name) 
-  if (isTRUE(is.na(y_name))) y_name <- "NA"
-  
+  y_name <- chk_deparse(y_name)
   check_string_internal(y_name)
-
+  
   y_name
 }
 
-error <- function(...) stop(..., call. = FALSE)
+#' Max Int
+#'
+#' @return An int of the maximum integer value for the system.
+#' @export
+#'
+#' @examples
+#' chk_max_int()
+chk_max_int <- function() .Machine$integer.max
 
-warning <- function(...) {
-  base::warning(..., call. = FALSE, immediate. = TRUE, noBreaks. = TRUE)
+#' Min Integer
+#'
+#' @return An int of the minimum integer value for the system.
+#' @export
+#'
+#' @examples
+#' chk_min_int()
+chk_min_int <- function() chk_max_int() * -1L
+
+#' Max Double
+#'
+#' @return An dbl of the maximum numeric value for the system.
+#' @export
+#'
+#' @examples
+#' chk_max_dbl()
+chk_max_dbl <- function() .Machine$double.xmax
+
+#' Min Double
+#'
+#' @return An dbl of the minimum numeric value for the system.
+#' @export
+#'
+#' @examples
+#' chk_min_dbl()
+chk_min_dbl <- function() chk_max_dbl() * -1
+
+#' Tiny Positive Double
+#'
+#' @return An dbl of the tiniest positive numeric value for the system.
+#' @export
+#'
+#' @examples
+#' chk_tiny_dbl()
+chk_tiny_dbl <- function() .Machine$double.xmin
+
+#' Fail
+#'
+#' @param ... The message.
+#' @param error A flag indicating whether to return an error (the default) or a warning.
+#'
+#' @export
+chk_fail <- function(..., error) {
+  if (missing(error) || isTRUE(error)) err(...)
+  wrn(...)
 }
-
-on_fail <- function(..., error) {
-  if (error) error(...)
-  warning(...)
-}
-
-punctuate <- function(x, qualifier = "or") {
-  if (is.logical(x) || is.integer(x) || is.numeric(x)) {
-    x <- as.character(x)
-  } else
-    x <- paste0("'", as.character(x), "'")
-  if (length(x) == 1)
-    return(x)
-  n <- length(x)
-  paste(paste(x[-n], collapse = ", "), qualifier, x[n])
-}
-
-plural <- function(x, n = 1, end = "") paste0(x, ifelse(n != 1, "s", ""), end)
 
 tz <- function(x) {
   tz <- attr(x, "tzone")

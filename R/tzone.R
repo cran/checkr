@@ -21,7 +21,17 @@ check_tzone <- function(x, tzone = "UTC", x_name = substitute(x),
   check_flag_internal(error)
 
   if(is.null(attr(x, "tzone")) || tzone != attr(x, "tzone"))
-    on_fail(x_name, " time zone must be '", tzone, 
+    chk_fail(x_name, " time zone must be '", tzone, 
             "' (not '", attr(x, "tzone"), "')", error = error)  
   invisible(x)
+}
+
+#' @rdname check_tzone
+#' @param tz A string of the time zone.
+#' @export
+check_tz <- function(x, tz = "UTC", x_name = substitute(x),
+                         error = TRUE) {
+  .Deprecated("check_tzone")
+  x_name <- deparse_x_name(x_name)
+  check_tzone(x, tzone = tz, x_name = x_name, error = error)
 }

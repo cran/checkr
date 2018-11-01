@@ -2,26 +2,29 @@
 % Please edit documentation in R/vector.R
 \name{check_vector}
 \alias{check_vector}
-\title{Check Vector}
+\title{Check Atomic Vector}
 \usage{
-check_vector(x, values, length = NA, unique = FALSE, sorted = FALSE,
-  named = NA, only = FALSE, x_name = substitute(x), error = TRUE)
+check_vector(x, values = NULL, length = NA, unique = FALSE,
+  sorted = FALSE, named = NA, attributes = named, only = FALSE,
+  x_name = substitute(x), error = TRUE)
 }
 \arguments{
 \item{x}{The object to check.}
 
-\item{values}{An optional vector specifying the values.}
+\item{values}{NULL or a vector specifying the values.}
 
-\item{length}{A flag indicating whether x should have elements (versus no elements) or a missing value indicating no requirements or a count or count range of the number of elements.}
+\item{length}{A flag indicating whether x should have elements (versus no elements) or a missing value indicating no requirements or a count or count range of the number of elements or a count vector of the permitted number of elements.}
 
 \item{unique}{A flag indicating whether the values must be unique.}
 
 \item{sorted}{A flag indicating whether the vector must be sorted.}
 
-\item{named}{A flag indicating whether the vector must be named or unnamed or a regular expression that must match all the names or count or count range of the number of characters in the names or NA if it doesn't matter if the vector is named.}
+\item{named}{A flag indicating whether the vector must be named or unnamed or NA if it doesn't matter.}
+
+\item{attributes}{A flag indicating whether the vector must or must not have attributes or NA if it doesn't matter.}
 
 \item{only}{A flag indicating whether only the actual values are permitted.
-It only affects values with less one or two non-missing elements.}
+It only affects values with two or less non-missing elements.}
 
 \item{x_name}{A string of the name of the object.}
 
@@ -31,7 +34,7 @@ It only affects values with less one or two non-missing elements.}
 An invisible copy of x (if it doesn't throw an error).
 }
 \description{
-Check Vector
+Check Atomic Vector
 }
 \examples{
 check_vector(2:1, length = 3, sorted = TRUE, named = TRUE, error = FALSE)

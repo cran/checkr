@@ -10,13 +10,10 @@
 #' @return An invisible copy of x (if it doesn't throw an error).
 #' @seealso \code{\link{check_nchar}} and \code{\link{check_regex}}
 #' @export
-#'
-#' @examples
-#' check_pattern("b ", "b", error = FALSE)
-#' check_pattern("b ", "^b$", error = FALSE)
 check_pattern <- function(x, pattern, all = TRUE,
                           x_name = substitute(x),
                          error = TRUE) {
+  .Deprecated("check_grepl")
   x_name <- deparse_x_name(x_name)
 
   check_string_internal(pattern)
@@ -26,11 +23,11 @@ check_pattern <- function(x, pattern, all = TRUE,
   match <- grepl(pattern, x)
   
   if(all) {
-    if(!all(match)) on_fail("all elements of ", x_name, " must match regular expression '", pattern, "'", error = error)
+    if(!all(match)) chk_fail("all elements of ", x_name, " must match regular expression '", pattern, "'", error = error)
     return(invisible(x))
   }
   if(!any(match)) {
-    on_fail("at least one element of ", x_name, " must match regular expression '", pattern, "'", error = error)
+    chk_fail("at least one element of ", x_name, " must match regular expression '", pattern, "'", error = error)
   }
   invisible(x)
 }

@@ -1,13 +1,14 @@
-#' Check Vector
+#' Check Atomic Vector
 #'
 #' @inheritParams check_length
 #' @param x The object to check.
-#' @param values An optional vector specifying the values.
+#' @param values NULL or a vector specifying the values.
 #' @param unique A flag indicating whether the values must be unique.
 #' @param sorted A flag indicating whether the vector must be sorted.
-#' @param named A flag indicating whether the vector must be named or unnamed or a regular expression that must match all the names or count or count range of the number of characters in the names or NA if it doesn't matter if the vector is named.
+#' @param named A flag indicating whether the vector must be named or unnamed or NA if it doesn't matter.
+#' @param attributes A flag indicating whether the vector must or must not have attributes or NA if it doesn't matter.
 #' @param only A flag indicating whether only the actual values are permitted.
-#' It only affects values with less one or two non-missing elements.
+#' It only affects values with two or less non-missing elements.
 #' @param x_name A string of the name of the object.
 #' @param error A flag indicating whether to throw an informative error or immediately generate an informative message if the check fails.
 #' @return An invisible copy of x (if it doesn't throw an error).
@@ -17,11 +18,12 @@
 #' check_vector(2:1, length = 3, sorted = TRUE, named = TRUE, error = FALSE)
 #' check_vector(c("one", "two", "four"), values = c("one", "two", "two"), error = FALSE)
 check_vector <- function(x,
-                         values,
+                         values = NULL,
                          length = NA,
                          unique = FALSE,
                          sorted = FALSE,
                          named = NA,
+                         attributes = named,
                          only = FALSE,
                          x_name = substitute(x),
                          error = TRUE) {
@@ -29,39 +31,41 @@ check_vector <- function(x,
   
   check_flag_internal(unique)
   check_flag_internal(sorted)
-  if(!(is_flag(named) || is_string(named) || is_NA(named) || is_count(named) || is_count_range(named))) 
-    error("named must be a flag, string, count, count range or NA")
+  if(!(is_flag(named) || is_NA(named))) 
+    err("named must be a flag or NA")
+
+  if(!(is_flag(attributes) || is_NA(attributes))) 
+    err("attributes must be a flag or NA")
   
-  regex <- ".*"
-  nchar <- c(0L, .Machine$integer.max)
-  if(is_string(named)) {
-    regex <- named
-    named <- TRUE
-  } else if(is_count(named) || is_count_range(named)) {
-    nchar <- named
-    named <- TRUE
-  }
-  
+  if(!is_NA(named) && named && !is_NA(attributes) && !attributes)
+    err("names are attributes")
+
   check_flag_internal(only)
   check_flag_internal(error)
   
-  if (!is.atomic(x)) error(x_name, " must be an atomic vector")
+  if (!is.atomic(x)) err(x_name, " must be an atomic vector")
   
   check_length(x, length = length, x_name = x_name, error = error)
   
-  if(!missing(values)) {
+  if(!is.null(values)) {
     check_values(x, values = values, only = only, 
                  x_name = x_name, error = error)
   } else if(only)
-    warning("only is TRUE but values is undefined")
+    wrn("only is TRUE but values is undefined")
   
   if(unique) check_unique(x, x_name = x_name, error = error)
   if(sorted) check_sorted(x, x_name = x_name, error = error)
   
   if(is_flag(named) && named) {
-    check_named(x, nchar = nchar, regex = regex, x_name = x_name, error = error)
+    check_named(x, x_name = x_name, error = error)
   } else if(is_flag(named) && !named)
     check_unnamed(x, x_name = x_name, error = error)
   
+  if(is_flag(attributes) && attributes) {
+    check_attributes(x, x_name = x_name, error = error)
+  } else if(is_flag(attributes) && !attributes) {
+    check_no_attributes(x, x_name = x_name, error = error)
+  }
+    
   invisible(x)
 }

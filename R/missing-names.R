@@ -32,7 +32,7 @@ check_missing_names <- function(x, names,
   names <- intersect(names, x_names)
   
   if(length(names)) {
-    on_fail(x_name, " must not have ", plural("name", length(names), " "), punctuate(sort(names), "and"), error = error)
+    chk_fail(x_name, co(names, " must not have name%s %c", conjunction = "and"), error = error)
   }
     
   invisible(x)
