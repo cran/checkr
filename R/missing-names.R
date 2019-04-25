@@ -18,7 +18,7 @@ check_missing_names <- function(x, names,
                                    x_name = substitute(x),
                                    error = TRUE) {
   
-  x_name <- deparse_x_name(x_name)
+  x_name <- chk_deparse(x_name)
   
   check_named(x, x_name = x_name)
   
@@ -32,7 +32,7 @@ check_missing_names <- function(x, names,
   names <- intersect(names, x_names)
   
   if(length(names)) {
-    chk_fail(x_name, co(names, " must not have name%s %c", conjunction = "and"), error = error)
+    chk_fail(x_name, co_and(names, " must not have name%s %c"), error = error)
   }
     
   invisible(x)

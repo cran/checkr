@@ -15,23 +15,15 @@
 #' check_tzone(x, tzone = "PST8PDT", error = FALSE)
 check_tzone <- function(x, tzone = "UTC", x_name = substitute(x),
                          error = TRUE) {
-  x_name <- deparse_x_name(x_name)
+  x_name <- chk_deparse(x_name)
   
   tzone <- check_string(tzone, coerce = TRUE)
   check_flag_internal(error)
 
-  if(is.null(attr(x, "tzone")) || tzone != attr(x, "tzone"))
+  attr_tzone <- attr(x, "tzone")
+  if(is.null(attr_tzone)) attr_tzone <- "NULL"
+  if(tzone != attr_tzone)
     chk_fail(x_name, " time zone must be '", tzone, 
-            "' (not '", attr(x, "tzone"), "')", error = error)  
+            "' (not '", attr_tzone, "')", error = error)  
   invisible(x)
-}
-
-#' @rdname check_tzone
-#' @param tz A string of the time zone.
-#' @export
-check_tz <- function(x, tz = "UTC", x_name = substitute(x),
-                         error = TRUE) {
-  .Deprecated("check_tzone")
-  x_name <- deparse_x_name(x_name)
-  check_tzone(x, tzone = tz, x_name = x_name, error = error)
 }

@@ -25,7 +25,7 @@ check_n <- function(x, n, range, x_name, n_name, error) {
   }
   range <- sort(unique(range))
   if(!n %in% range) {
-    chk_fail(x_name, " must have ", cc(range, "or"), " ", n_name, "s", error = error)
+    chk_fail(x_name, " must have ", cc_or(range), " ", n_name, "s", error = error)
   }
   return(x)
 }
@@ -35,7 +35,7 @@ check_nas <- function(x,
                       x_name = substitute(x),
                       error = TRUE) {
   
-  x_name <- deparse_x_name(x_name)
+  x_name <- chk_deparse(x_name)
   
   check_flag_internal(error)
   
@@ -57,15 +57,26 @@ check_class_internal <- function(x,
                                  values,
                                  x_name = substitute(x),
                                  error = TRUE) {
-  x_name <- deparse_x_name(x_name)
+  x_name <- chk_deparse(x_name)
   
   check_flag_internal(error)
   
-  class <- class(values)[1]
-  
-  if (!inherits(x, class)) {
-    chk_fail(x_name, " must be class ", class, error = error)
+  for(class in class(values)) {
+    if (!inherits(x, class)) {
+      chk_fail(x_name, " must be class ", class, error = error)
+    }
   }
+  if(!identical(class(values), intersect(class(x), class(values)))) {
+      chk_fail(x_name, " must inherit from classes ", cc_and(class(values)), 
+               " in that order", error = error)
+  }
+  if("units" %in% class(values)) {
+    if(!requireNamespace("units", quietly = TRUE))
+      err("package 'units' is required to check units")
+    if(!identical(units::deparse_unit(x), units::deparse_unit(values)))
+      err(x_name, " must have units '", units::deparse_unit(values), "' not '", units::deparse_unit(x), "'")
+  }
+  
   invisible(x)
 }
 
@@ -73,7 +84,7 @@ check_values <- function(x, values,
                          only = FALSE,
                          x_name = substitute(x),
                          error = TRUE) {
-  x_name <- deparse_x_name(x_name)
+  x_name <- chk_deparse(x_name)
   
   check_flag_internal(error)
   
@@ -95,16 +106,16 @@ check_values <- function(x, values,
   if(!only && identical(length(values), 2L)) {
     if(x_nona[1] < values[1] || x_nona[length(x_nona)] > values[2]) {
       chk_fail("the values in ", x_name,
-              " must lie between ", cc(values[1:2], "and"), error = error)
+               " must lie between ", cc_and(values[1:2]), error = error)
     }
   } else if (!all(x_nona %in% values)) {
     unpermitted <- x_nona[!x_nona %in% values]
     unpermitted <- unique(unpermitted)
     values <- unique(values)
     if(length(values) < 10) {
-      chk_fail(x_name, " can only include values ", cc(values, "or"), error = error)
+      chk_fail(x_name, " can only include values ", cc_or(values), error = error)
     } else if(length(unpermitted) < 10) {
-      chk_fail(x_name, " has unpermitted values ", cc(unpermitted, "and"), error = error)
+      chk_fail(x_name, " has unpermitted values ", cc_and(unpermitted), error = error)
     } else
       chk_fail(x_name, " has unpermitted values ", error = error)
   }

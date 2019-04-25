@@ -22,8 +22,8 @@ check_rbind <- function(x,
                         x_name = substitute(x),
                         y_name = substitute(y),
                         error = TRUE) {
-  x_name <- deparse_x_name(x_name)
-  y_name <- deparse_y_name(y_name)
+  x_name <- chk_deparse(x_name)
+  y_name <- chk_deparse(y_name)
   
   check_inherits(x, "data.frame", x_name = x_name)
   check_inherits(y, "data.frame", x_name = y_name)
@@ -43,8 +43,7 @@ check_rbind <- function(x,
   
   else if(!exclusive && order) {
     if(!identical(colnames, intersect(colnames(x), colnames))) {
-      chk_fail(co(colnames, "x column names must include %c in that order",
-                 conjunction = "and")
+      chk_fail(co_and(colnames, "x column names must include %c in that order")
               , error = error)
     }
   }
@@ -56,7 +55,7 @@ check_rbind <- function(x,
   
   if(!all(identical)) {
     different <- names(identical[!identical])
-    chk_fail(co(different, "column%s %c in ", conjunction = "and"), x_name, " and ", y_name, 
+    chk_fail(co_and(different, "column%s %c in "), x_name, " and ", y_name, 
                    " must have the same classes", error = error)
   }
   invisible(x)

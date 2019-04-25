@@ -1,3 +1,14 @@
+# checkr 0.5.0
+
+- fixed check_key with no columns
+- added units testing
+- added `names = TRUE` and `class = TRUE` arguments to `check_attributes()`, `check_no_attributes()` and `check_vector()`
+- added `na_distinct = FALSE` argument to `check_key`
+- replace internal `deparse_x_name()` with exported `chk_deparse()`
+- added `check_name()` to check if elements of character vector are each a syntactically valid name
+- `check_named()` now only gives 1 warning if error = FALSE and not named
+- removed `check_tz()`
+
 # checkr 0.4.0
 
 ## Major Changes
